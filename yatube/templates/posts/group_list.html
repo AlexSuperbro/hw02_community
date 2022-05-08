@@ -1,32 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Записи сообщества Лев Толстой – зеркало русской революции.</title>
+  Записи сообщества {{ group }}
 {% endblock %}
 {% block content %}
-    <main>
-      <!-- класс py-5 создает отступы сверху и снизу блока -->
-      <div class="container py-5">
-        <h1>Лев Толстой – зеркало русской революции.</h1>
+  <div class="container py-5">
+    <h1>{{ group.description }}</h1>
+    <p>
+      {{ group }}
+    </p>
+    {% for post in posts %}
+      <article>
+        <ul>
+          <li>
+            Автор: {{ post.author.get_full_name }}
+          </li>
+          <li>
+            Дата публикации: {{ post.pub_date|date:"d E Y" }}
+          </li>
+        </ul>      
         <p>
-          {{group}}
+          {{ post.text|linebreaks }}
         </p>
-        <article>
-          {% for post in posts %}
-            <ul>
-              <li>
-                Автор: {{ post.author.get_full_name }}
-              </li>
-              <li>
-                Дата публикации: {{ post.pub_date|date:"d E Y" }}
-              </li>
-            </ul>      
-            <p>
-              {{ post.text }}
-            </p>
-            {% if not forloop.last %}<hr>{% endif %}
-          {% endfor %}        
-        </article>
-        <!-- под последним постом нет линии -->
-      </div>  
-    </main>
+        {% if not forloop.last %}<hr>{% endif %}
+      </article>
+    {% endfor %}
+  </div>
 {% endblock %}
